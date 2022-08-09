@@ -6,7 +6,7 @@ class Servers extends data.MongoDataSource {
     return await this.model.find({messagesID: id, deleted: false});
   }
 
-  async Server(id) {
+  async getServer(id) {
     return await this.findOneById(id);
   }
 

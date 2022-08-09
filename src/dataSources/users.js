@@ -10,8 +10,8 @@ class User extends data.MongoDataSource {
     return await this.findOneById(id);
   }
 
-  async createUser({ name, deleted }) {
-    return await this.model.create({name, deleted });
+  async createUser(args) {
+    return await this.model.create(args);
   }
 
   async editUser(args) {

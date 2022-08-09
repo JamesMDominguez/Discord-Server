@@ -13,6 +13,9 @@ const resolvers = {
     getServer: async (_, { id }, { dataSources }) => {
       return dataSources.server.getServer(id);
     },
+    getChannel:  async (_, { id }, { dataSources }) => {
+      return dataSources.channel.getChannel(id);
+    }
   },
 
   Mutation: {
@@ -28,6 +31,9 @@ const resolvers = {
     createUser: async (_, args, { dataSources }) => {
       return dataSources.users.createUser(args)
     },
+    createChannel: async (_, args, { dataSources }) => {
+      return dataSources.channel.createChannel(args)
+    },
 
     editServer: async (_, args, { dataSources }) => {
       return dataSources.servers.editServer(args)
@@ -41,6 +47,9 @@ const resolvers = {
     editMember: async (_,args,{dataSources}) => {
       return dataSources.members.editMember(args)
     },
+    editChannel: async (_,args,{dataSources}) => {
+      return dataSources.channels.editChannel(args)
+    },
 
     deleteServer: async (_,args,{dataSources}) => {
       return dataSources.servers.deleteServer(args.id)
@@ -53,11 +62,17 @@ const resolvers = {
     },
     deleteUser: async (_,{id},{dataSources}) => {
       return dataSources.users.deleteUser(id)
+    },
+    deleteChannel: async (_,{id},{dataSources}) => {
+      return dataSources.channels.deleteChannel(id)
     }
+
   },
   Server: {
-    member: (server, _, { dataSources: {members} }) =>  members.getMember(server._id),
-    message: (server, _, { dataSources: {messages} }) =>  messages.getMessages(server._id)
+    members: (server, _, { dataSources: {members} }) =>  members.getMember(server._id),
+  },
+  Channel: {
+    messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id)
   },
   Member: {
     user: (member, _, { dataSources: {user} }) =>  user.getUser(member.userID)

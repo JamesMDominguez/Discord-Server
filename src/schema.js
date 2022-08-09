@@ -6,12 +6,21 @@ const typeDefs = gql`
     userID: String!
     serverID: String!
     deleted: Boolean!
-    user: [User!]!
+    user: User!
+  }
+
+  type Channel {
+    id: ID!
+    name: String!
+    serverID: String!
+    messages: [Message!]!
   }
 
   type User {
     id: ID!
     name: String!
+    email: String! 
+    profile_image: String!
   }
 
   type Message {
@@ -26,8 +35,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     deleted: Boolean!
-    member: Member!
-    message: [Message]
+    members: [Member]
   }
 
 
@@ -36,7 +44,8 @@ const typeDefs = gql`
     getUser(id: ID!): User,
     getMember(id: ID!): [Member],
     getServers(id: ID!): [Server],
-    getServer(id: ID!): Server
+    getServer(id: ID!): Server!,
+    getChannel(id: ID!): Channel!
   }
 
   type Mutation {
@@ -48,13 +57,17 @@ const typeDefs = gql`
     editServer(id: ID!, name: String!, deleted: Boolean!): Server!
     deleteServer(id: ID!): Server!
 
-    createUser(name: String!, deleted: Boolean!): User!
-    editUser(id: ID!,name: String!): User!
+    createUser(name: String!, deleted: Boolean!,email: String, profile_image: String): User!
+    editUser(id: ID!,name: String!,email: String, profile_image: String): User!
     deleteUser(id: ID!): User!
     
     createMember(userID: String!, serverID: String!, deleted: Boolean!): Member!
     editMember(id: ID!, userID: String!, serverID: String!, deleted: Boolean!): Member!
     deleteMember(id: ID!): Member!
+    
+    createChannel(name: String,serverID: String,deleted: Boolean): Channel!
+    editChannel(name: String,serverID: String,deleted: Boolean): Channel!
+    deleteChannel(id: ID!): Channel!
   }
 `;
 
