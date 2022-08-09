@@ -41,7 +41,7 @@ const typeDefs = gql`
 
 
   type Query {
-    getMessages(serverID: String!): [Message],
+    getMessages(channelID: String!): [Message],
     getUser(id: ID!): User,
     getMembers(id: ID!): [Member],
     getServers(id: ID!): [Server],

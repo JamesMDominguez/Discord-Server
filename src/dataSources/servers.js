@@ -11,7 +11,6 @@ class Servers extends data.MongoDataSource {
   }
 
   async createServer(args) {
-    console.log(args)
     return await this.model.create(args);
   }
 

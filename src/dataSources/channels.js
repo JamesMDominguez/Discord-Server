@@ -11,7 +11,6 @@ class Channels extends data.MongoDataSource {
   }
 
   async createChannel(args) {
-    console.log(args)
     return await this.model.create(args);
   }
 

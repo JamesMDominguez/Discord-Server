@@ -8,13 +8,13 @@ const resolvers = {
       return dataSources.messages.getMessages(serverID);
     },
     getServers: async (_, { id }, { dataSources }) => {
-      return dataSources.server.getServers(id);
+      return dataSources.servers.getServers(id);
     },
     getServer: async (_, { id }, { dataSources }) => {
-      return dataSources.server.getServer(id);
+      return dataSources.servers.getServer(id);
     },
     getChannel:  async (_, { id }, { dataSources }) => {
-      return dataSources.channel.getChannel(id);
+      return dataSources.channels.getChannel(id);
     }
   },
 
@@ -32,7 +32,7 @@ const resolvers = {
       return dataSources.users.createUser(args)
     },
     createChannel: async (_, args, { dataSources }) => {
-      return dataSources.channel.createChannel(args)
+      return dataSources.channels.createChannel(args)
     },
 
     editServer: async (_, args, { dataSources }) => {
