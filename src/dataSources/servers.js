@@ -1,28 +1,28 @@
 const data = require('apollo-datasource-mongodb')
 
-class Rooms extends data.MongoDataSource {
+class Servers extends data.MongoDataSource {
 
-  async getRooms(id) {
+  async getServers(id) {
     return await this.model.find({messagesID: id, deleted: false});
   }
 
-  async getRoom(id) {
+  async Server(id) {
     return await this.findOneById(id);
   }
 
-  async createRoom(args) {
+  async createServer(args) {
     console.log(args)
     return await this.model.create(args);
   }
 
-  async editRoom(args) {
+  async editServer(args) {
     await this.model.updateOne({_id: args.id}, {$set: args})
     return await this.findOneById(args.id)
   }
 
-  async deleteRoom(id){
+  async deleteServer(id){
     await this.model.updateOne({_id: id}, {$set: {deleted: true}})
     return await this.findOneById(id)
   }
 }
-module.exports = Rooms;
+module.exports = Servers;

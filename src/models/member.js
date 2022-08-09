@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const Message = mongoose.model("Message", {
-  content: String,
+const Member = mongoose.model("Member", {
   userID: String,
   serverID: String,
   deleted: Boolean
 });
 
-module.exports = Message;
+module.exports = Member;
+

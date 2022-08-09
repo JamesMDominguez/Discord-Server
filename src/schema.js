@@ -1,10 +1,10 @@
 const {gql} = require('apollo-server');
 
 const typeDefs = gql`
-  type Group {
+  type Member {
     id: ID!
     userID: String!
-    roomID: String!
+    serverID: String!
     deleted: Boolean!
     user: [User!]!
   }
@@ -16,45 +16,45 @@ const typeDefs = gql`
 
   type Message {
     id: ID!
-    message: String!
+    content: String!
     userID: String!
-    roomID: String!
+    serverID: String!
     deleted: Boolean!
   }
 
-  type Room {
+  type Server {
     id: ID!
     name: String!
     deleted: Boolean!
-    group: Group!
+    member: Member!
     message: [Message]
   }
 
 
   type Query {
-    getMessages(roomID: String!): [Message],
+    getMessages(serverID: String!): [Message],
     getUser(id: ID!): User,
-    getGroup(id: ID!): [Group],
-    getRooms(id: ID!): [Room],
-    getRoom(id: ID!): Room
+    getMember(id: ID!): [Member],
+    getServers(id: ID!): [Server],
+    getServer(id: ID!): Server
   }
 
   type Mutation {
-    createMessage(message: String!, userID: String!, roomID: String!, deleted: Boolean!): Message!
-    editMessage(id: ID!, message: String!, userID: String!, roomID: String!, deleted: Boolean!): Message!
+    createMessage(content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
+    editMessage(id: ID!, content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
     deleteMessage(id: ID!): Message!
 
-    createRoom(name: String!, deleted: Boolean!): Room!
-    editRoom(id: ID!, name: String!, deleted: Boolean!): Room!
-    deleteRoom(id: ID!): Room!
+    createServer(name: String!, deleted: Boolean!): Server!
+    editServer(id: ID!, name: String!, deleted: Boolean!): Server!
+    deleteServer(id: ID!): Server!
 
     createUser(name: String!, deleted: Boolean!): User!
     editUser(id: ID!,name: String!): User!
     deleteUser(id: ID!): User!
     
-    createGroup(userID: String!, roomID: String!, deleted: Boolean!): Group!
-    editGroup(id: ID!, userID: String!, roomID: String!, deleted: Boolean!): Group!
-    deleteGroup(id: ID!): Group!
+    createMember(userID: String!, serverID: String!, deleted: Boolean!): Member!
+    editMember(id: ID!, userID: String!, serverID: String!, deleted: Boolean!): Member!
+    deleteMember(id: ID!): Member!
   }
 `;
 

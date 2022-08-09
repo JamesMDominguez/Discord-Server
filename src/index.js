@@ -4,14 +4,14 @@ const myServer = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 
-const Group = require("./models/group");
+const Member = require("./models/member");
 const Message = require("./models/message");
-const Room = require("./models/room");
+const Server = require("./models/server");
 const User = require("./models/user");
 
-const Groups = require("./dataSources/groups");
+const Members = require("./dataSources/members");
 const Messages = require("./dataSources/messages");
-const Rooms = require("./dataSources/rooms");
+const Servers = require("./dataSources/Servers");
 const Users = require("./dataSources/users");
 
 const main = async () =>
@@ -23,9 +23,9 @@ main()
   .then(console.log("🎉 connected to database successfully"))
   .catch((error) => console.error(error));
 const dataSources = () => ({
-  groups: new Groups(Group),
+  groups: new Members(Member),
   messages: new Messages(Message),
-  rooms: new Rooms(Room),
+  servers: new Servers(Server),
   users: new Users(User)
 });
 const server = new myServer.ApolloServer({ typeDefs, resolvers, dataSources });
