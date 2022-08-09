@@ -1,8 +1,8 @@
 const resolvers = {
 
   Query: {
-    getMember: async (_, { id }, { dataSources }) => {
-      return dataSources.members.getMember(id);
+    getMembers: async (_, { id }, { dataSources }) => {
+      return dataSources.members.getMembers(id);
     },
     getMessages: async (_, { serverID }, { dataSources }) => {
       return dataSources.messages.getMessages(serverID);
@@ -69,7 +69,8 @@ const resolvers = {
 
   },
   Server: {
-    members: (server, _, { dataSources: {members} }) =>  members.getMember(server._id),
+    members: (server, _, { dataSources: {members} }) =>  members.getMembers(server._id),
+    channels: (server, _, { dataSources: {channels} }) =>  channels.getChannels(server._id)
   },
   Channel: {
     messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id)

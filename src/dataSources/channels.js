@@ -3,7 +3,7 @@ const data = require('apollo-datasource-mongodb')
 class Channels extends data.MongoDataSource {
 
   async getChannels(id) {
-    return await this.model.find({messagesID: id, deleted: false});
+    return await this.model.find({serverID: id, deleted: false});
   }
 
   async getChannel(id) {

@@ -35,14 +35,15 @@ const typeDefs = gql`
     id: ID!
     name: String!
     deleted: Boolean!
-    members: [Member]
+    members: [Member!]!
+    channels: [Channel!]!
   }
 
 
   type Query {
     getMessages(serverID: String!): [Message],
     getUser(id: ID!): User,
-    getMember(id: ID!): [Member],
+    getMembers(id: ID!): [Member],
     getServers(id: ID!): [Server],
     getServer(id: ID!): Server!,
     getChannel(id: ID!): Channel!
@@ -53,8 +54,8 @@ const typeDefs = gql`
     editMessage(id: ID!, content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
     deleteMessage(id: ID!): Message!
 
-    createServer(name: String!, deleted: Boolean!): Server!
-    editServer(id: ID!, name: String!, deleted: Boolean!): Server!
+    createServer(name: String!, deleted: Boolean!, ownerID: String!): Server!
+    editServer(id: ID!, name: String!, deleted: Boolean!, ownerID: String!): Server!
     deleteServer(id: ID!): Server!
 
     createUser(name: String!, deleted: Boolean!,email: String, profile_image: String): User!

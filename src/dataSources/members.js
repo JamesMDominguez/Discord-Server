@@ -2,7 +2,7 @@ const data = require('apollo-datasource-mongodb')
 
 class Members extends data.MongoDataSource {
 
-  async getMember(id) { // Gets a list of users who are in a group
+  async getMembers(id) { // Gets a list of users who are in a group
     return await this.model.find({serverID: id, deleted: false});
   }
 
