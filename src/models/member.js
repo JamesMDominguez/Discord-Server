@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const Member = mongoose.model("Member", {
   userID: String,
@@ -6,5 +6,5 @@ const Member = mongoose.model("Member", {
   deleted: Boolean
 });
 
-module.exports = Member;
+export default Member;
 

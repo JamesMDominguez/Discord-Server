@@ -1,6 +1,6 @@
-const data = require('apollo-datasource-mongodb')
+import {MongoDataSource} from 'apollo-datasource-mongodb'
 
-class Channels extends data.MongoDataSource {
+class Channels extends MongoDataSource {
 
   async getChannels(id) {
     return await this.model.find({serverID: id, deleted: false});
@@ -24,4 +24,4 @@ class Channels extends data.MongoDataSource {
     return await this.findOneById(id)
   }
 }
-module.exports = Channels;
+export default Channels;

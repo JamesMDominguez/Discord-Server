@@ -1,6 +1,6 @@
-const data = require('apollo-datasource-mongodb')
+import {MongoDataSource} from 'apollo-datasource-mongodb'
 
-class Message extends data.MongoDataSource {
+class Message extends MongoDataSource {
 
   async getMessages(id) {
     return await this.model.find({serverID: id, deleted: false});
@@ -20,4 +20,4 @@ class Message extends data.MongoDataSource {
     return await this.findOneById(id)
   }
 }
-module.exports = Message;
+export default Message;

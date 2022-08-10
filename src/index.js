@@ -1,21 +1,20 @@
-require("dotenv").config({ debug: true });
-const mongoose = require("mongoose");
-const myServer = require("apollo-server");
-const typeDefs = require("./schema");
-const resolvers = require("./resolvers");
+import 'dotenv/config'
+import mongoose from "mongoose"
+import myServer from "apollo-server"
+import typeDefs from './schema.js';
+import resolvers from './resolvers.js';
 
-const Member = require("./models/member");
-const Message = require("./models/message");
-const Server = require("./models/server");
-const User = require("./models/user");
-const Channel = require("./models/channel");
+import Member from './models/member.js';
+import Message from './models/message.js';
+import Server from './models/server.js';
+import User from './models/user.js';
+import Channel from './models/channel.js';
 
-
-const Members = require("./dataSources/members");
-const Messages = require("./dataSources/messages");
-const Servers = require("./dataSources/Servers");
-const Users = require("./dataSources/users");
-const Channels = require("./dataSources/channels");
+import Members from './dataSources/members.js';
+import Messages from './dataSources/messages.js';
+import Servers from './dataSources/Servers.js';
+import Users from './dataSources/users.js';
+import Channels from './dataSources/channels.js';
 
 const main = async () =>
   await mongoose.connect(process.env.MONGODB_URI, {

@@ -1,29 +1,37 @@
 const resolvers = {
 
   Query: {
-    getMembers: async (_, { id }, { dataSources }) => {
-      return dataSources.members.getMembers(id);
+    getMembers: async (_, { serverID }, { dataSources }) => {
+      return dataSources.members.getMembers(serverID);
     },
-    getMessages: async (_, { serverID }, { dataSources }) => {
-      return dataSources.messages.getMessages(serverID);
+    getMessages: async (_, { channelID }, { dataSources }) => {
+      return dataSources.messages.getMessages(channelID);
     },
-    getServers: async (_, { id }, { dataSources }) => {
-      return dataSources.servers.getServers(id);
+    getServers: async (_, { userID }, { dataSources }) => {
+      const members = await dataSources.members.getUserMembers(userID)
+      let formatedMembers = []
+      members.forEach(member => {
+        formatedMembers.push(member.serverID)
+      });
+      return dataSources.servers.getServers(formatedMembers);
     },
     getServer: async (_, { id }, { dataSources }) => {
       return dataSources.servers.getServer(id);
     },
     getChannel:  async (_, { id }, { dataSources }) => {
       return dataSources.channels.getChannel(id);
+    },
+    getChannels:  async (_, { serverID }, { dataSources }) => {
+      return dataSources.channels.getChannels(serverID);
+    },
+    getUser: async (_, { id }, { dataSources }) => {
+      return dataSources.users.getUser(id);
     }
   },
 
   Mutation: {
     createServer: async (_, args, { dataSources }) => {
       return dataSources.servers.createServer(args)
-    },
-    createMessage: async (_, args, { dataSources }) => {
-      return dataSources.messages.createMessage(args)
     },
     createMember: async (_, args, { dataSources }) => {
       return dataSources.members.createMember(args)
@@ -33,6 +41,9 @@ const resolvers = {
     },
     createChannel: async (_, args, { dataSources }) => {
       return dataSources.channels.createChannel(args)
+    },
+    createMessage: async (_, args, { dataSources }) => {
+      return dataSources.messages.createMessage(args)
     },
 
     editServer: async (_, args, { dataSources }) => {
@@ -68,6 +79,12 @@ const resolvers = {
     }
 
   },
+  Subscription: {
+    messageAdded: async (_, args, { dataSources }) => {
+      return dataSources.messages.createMessage(args)
+    }
+  },
+
   Server: {
     members: (server, _, { dataSources: {members} }) =>  members.getMembers(server._id),
     channels: (server, _, { dataSources: {channels} }) =>  channels.getChannels(server._id)
@@ -76,8 +93,8 @@ const resolvers = {
     messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id)
   },
   Member: {
-    user: (member, _, { dataSources: {user} }) =>  user.getUser(member.userID)
+    user: (member, _, { dataSources: {users} }) =>  users.getUser(member.userID)
   }
 }
 
-module.exports = resolvers;
+export default resolvers;

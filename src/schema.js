@@ -1,4 +1,4 @@
-const {gql} = require('apollo-server');
+import {gql} from 'apollo-server'
 
 const typeDefs = gql`
   type Member {
@@ -41,18 +41,23 @@ const typeDefs = gql`
 
 
   type Query {
-    getMessages(channelID: String!): [Message],
-    getUser(id: ID!): User,
-    getMembers(id: ID!): [Member],
-    getServers(id: ID!): [Server],
+    getMessages(channelID: String!): [Message!]!,
+
+    getUser(id: ID!): User!,
+
+    getMembers(serverID: ID!): [Member!]!,
+
+    getServers(userID: ID!): [Server!]!,
     getServer(id: ID!): Server!,
+
     getChannel(id: ID!): Channel!
+    getChannels(serverID: ID!): [Channel!]!
   }
 
   type Mutation {
-    createMessage(content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
     editMessage(id: ID!, content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
     deleteMessage(id: ID!): Message!
+    createMessage(content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
 
     createServer(name: String!, deleted: Boolean!, ownerID: String!): Server!
     editServer(id: ID!, name: String!, deleted: Boolean!, ownerID: String!): Server!
@@ -70,8 +75,12 @@ const typeDefs = gql`
     editChannel(name: String,serverID: String,deleted: Boolean): Channel!
     deleteChannel(id: ID!): Channel!
   }
+
+  type Subscription {
+    messageAdded(channelID: String!): Message!
+  }
 `;
 
-module.exports = typeDefs;
+export default typeDefs;
 
 

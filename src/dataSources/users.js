@@ -1,10 +1,6 @@
-const data = require('apollo-datasource-mongodb')
+import {MongoDataSource} from 'apollo-datasource-mongodb'
 
-class User extends data.MongoDataSource {
-
-  async getUser(id) {
-    return await this.model.find({messagesID: id, deleted: false});
-  }
+class User extends MongoDataSource {
 
   async getUser(id) {
     return await this.findOneById(id);
@@ -25,4 +21,4 @@ class User extends data.MongoDataSource {
   }
 
 }
-module.exports = User;
+export default User;

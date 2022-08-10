@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const Channel = mongoose.model("Channel", {
   name: String,
@@ -6,4 +6,4 @@ const Channel = mongoose.model("Channel", {
   deleted: Boolean
 });
 
-module.exports = Channel;
+export default Channel;

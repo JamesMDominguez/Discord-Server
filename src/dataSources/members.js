@@ -1,13 +1,17 @@
-const data = require('apollo-datasource-mongodb')
+import {MongoDataSource} from 'apollo-datasource-mongodb'
 
-class Members extends data.MongoDataSource {
+class Members extends MongoDataSource {
 
   async getMembers(id) { // Gets a list of users who are in a group
     return await this.model.find({serverID: id, deleted: false});
   }
 
-  async createMember({ userID, serverID, deleted}) { //deletes a user from a group
-    return await this.model.create({ userID, serverID, deleted});
+  async getUserMembers(id) { // Gets a list of users who are in a group
+    return await this.model.find({userID: id, deleted: false});
+  }
+
+  async createMember(args) { //deletes a user from a group
+    return await this.model.create(args);
   }
 
   async editMember(args) {
@@ -20,4 +24,4 @@ class Members extends data.MongoDataSource {
     return await this.findOneById(id)
   }
 }
-module.exports = Members;
+export default Members;

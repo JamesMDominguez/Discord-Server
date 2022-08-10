@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const Message = mongoose.model("Message", {
   content: String,
@@ -7,4 +7,4 @@ const Message = mongoose.model("Message", {
   deleted: Boolean
 });
 
-module.exports = Message;
+export default Message;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const Server = mongoose.model("Server", {
   name: String,
@@ -6,4 +6,4 @@ const Server = mongoose.model("Server", {
   ownerID: String
 });
 
-module.exports = Server;
+export default Server;
