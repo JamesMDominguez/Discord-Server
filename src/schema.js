@@ -75,10 +75,6 @@ const typeDefs = gql`
     editChannel(name: String,serverID: String,deleted: Boolean): Channel!
     deleteChannel(id: ID!): Channel!
   }
-
-  type Subscription {
-    messageAdded(channelID: String!): Message!
-  }
 `;
 
 export default typeDefs;

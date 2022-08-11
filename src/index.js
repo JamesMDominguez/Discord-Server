@@ -24,6 +24,7 @@ const main = async () =>
 main()
   .then(console.log("🎉 connected to database successfully"))
   .catch((error) => console.error(error));
+
 const dataSources = () => ({
   members: new Members(Member),
   messages: new Messages(Message),
@@ -35,3 +36,4 @@ const server = new myServer.ApolloServer({ typeDefs, resolvers, dataSources });
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
+

@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index"
@@ -13,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@graphql-tools/schema": "^9.0.0",
     "apollo-datasource-mongodb": "^0.5.4",
     "apollo-datasource-rest": "^3.6.0",
@@ -26,6 +26,7 @@
     "mongodb": "^4.7.0",
     "mongoose": "^6.3.6",
     "nodemon": "^2.0.16",
+    "subscriptions-transport-ws": "^0.11.0",
     "ws": "^8.8.1"
   }
 }

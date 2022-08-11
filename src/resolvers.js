@@ -79,11 +79,6 @@ const resolvers = {
     }
 
   },
-  Subscription: {
-    messageAdded: async (_, args, { dataSources }) => {
-      return dataSources.messages.createMessage(args)
-    }
-  },
 
   Server: {
     members: (server, _, { dataSources: {members} }) =>  members.getMembers(server._id),
