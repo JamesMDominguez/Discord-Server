@@ -3,11 +3,11 @@ import {MongoDataSource} from 'apollo-datasource-mongodb'
 class Message extends MongoDataSource {
 
   async getMessages(id) {
-    return await this.model.find({serverID: id, deleted: false});
+    return await this.model.find({channelID: id, deleted: false});
   }
 
-  async createMessage({ content, userID, serverID, deleted }) {
-    return await this.model.create({ content, userID, serverID, deleted });
+  async createMessage(args) {
+    return await this.model.create(args);
   }
 
   async editMessage(args) {

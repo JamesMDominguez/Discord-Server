@@ -1,3 +1,7 @@
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub();
+
 const resolvers = {
 
   Query: {
@@ -43,7 +47,10 @@ const resolvers = {
       return dataSources.channels.createChannel(args)
     },
     createMessage: async (_, args, { dataSources }) => {
-      return dataSources.messages.createMessage(args)
+      const newMessage = await dataSources.messages.createMessage(args)
+      console.log(newMessage)
+      pubsub.publish('MESSAGE_CREATED', { messageCreated: newMessage }); 
+      return newMessage
     },
 
     editServer: async (_, args, { dataSources }) => {
@@ -80,6 +87,12 @@ const resolvers = {
 
   },
 
+  Subscription: {
+    messageCreated: {
+      subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
+    },
+  },
+
   Server: {
     members: (server, _, { dataSources: {members} }) =>  members.getMembers(server._id),
     channels: (server, _, { dataSources: {channels} }) =>  channels.getChannels(server._id)
@@ -88,7 +101,11 @@ const resolvers = {
     messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id)
   },
   Member: {
-    user: (member, _, { dataSources: {users} }) =>  users.getUser(member.userID)
+    user: (member, _, { dataSources: {users} }) =>  users.getUser(member.userID),
+    server: (member, _, { dataSources: {servers} }) =>  servers.getServer(member.serverID),
+  },
+  User:{
+    memberships: (user, _, { dataSources: {members} }) =>  members.getUserMembers(user._id),
   }
 }
 

@@ -1,6 +1,18 @@
 import 'dotenv/config'
 import mongoose from "mongoose"
-import myServer from "apollo-server"
+
+import { ApolloServer } from 'apollo-server-express';
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageLocalDefault,
+} from 'apollo-server-core';
+import express from 'express';
+
+import { createServer } from 'http';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+
 import typeDefs from './schema.js';
 import resolvers from './resolvers.js';
 
@@ -32,8 +44,52 @@ const dataSources = () => ({
   users: new Users(User),
   channels: new Channels(Channel)
 });
-const server = new myServer.ApolloServer({ typeDefs, resolvers, dataSources });
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+
+  const app = express();
+  const httpServer = createServer(app);
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+  const server = new ApolloServer({
+    schema,
+    dataSources,
+    csrfPrevention: true,
+    cache: 'bounded',
+    plugins: [
+      // Proper shutdown for the HTTP server.
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+
+      // Proper shutdown for the WebSocket server.
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ],
+  });
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  });
+
+
+  const serverCleanup = useServer({ schema }, wsServer);
+
+  await server.start();
+  server.applyMiddleware({
+    app,
+    path: '/'
+  });
+
+  httpServer.listen( process.env.PORT || 4000 , () => {
+    console.log(`Apollo Server on http://localhost:${process.env.PORT || 4000}${server.graphqlPath}`);
+  });
+
+
+
 

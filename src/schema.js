@@ -1,4 +1,4 @@
-import {gql} from 'apollo-server'
+import {gql} from 'apollo-server-express'
 
 const typeDefs = gql`
   type Member {
@@ -7,6 +7,7 @@ const typeDefs = gql`
     serverID: String!
     deleted: Boolean!
     user: User!
+    server: Server!
   }
 
   type Channel {
@@ -21,13 +22,14 @@ const typeDefs = gql`
     name: String!
     email: String! 
     profile_image: String!
+    memberships: [Member!]!
   }
 
   type Message {
     id: ID!
     content: String!
     userID: String!
-    serverID: String!
+    channelID: String!
     deleted: Boolean!
   }
 
@@ -55,9 +57,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    editMessage(id: ID!, content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
+    editMessage(id: ID!, content: String!, userID: String!, channelID: String!, deleted: Boolean!): Message!
     deleteMessage(id: ID!): Message!
-    createMessage(content: String!, userID: String!, serverID: String!, deleted: Boolean!): Message!
+    createMessage(content: String!, userID: String!, channelID: String!, deleted: Boolean!): Message!
 
     createServer(name: String!, deleted: Boolean!, ownerID: String!): Server!
     editServer(id: ID!, name: String!, deleted: Boolean!, ownerID: String!): Server!
@@ -74,6 +76,10 @@ const typeDefs = gql`
     createChannel(name: String,serverID: String,deleted: Boolean): Channel!
     editChannel(name: String,serverID: String,deleted: Boolean): Channel!
     deleteChannel(id: ID!): Channel!
+  }
+
+  type Subscription {
+    messageCreated: Message!
   }
 `;
 
