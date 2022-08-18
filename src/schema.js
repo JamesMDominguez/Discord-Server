@@ -32,7 +32,8 @@ const typeDefs = gql`
     userID: String!
     channelID: String!
     deleted: Boolean!
-    user: User
+    user: User!
+    channel: Channel!
   }
 
   type Server {

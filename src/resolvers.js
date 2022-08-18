@@ -109,6 +109,7 @@ const resolvers = {
   },
   Message:{
     user: (message, _, { dataSources: {users} }) =>  users.getUser(message.userID),
+    channel: (message, _, { dataSources: {channels} }) =>  channels.getChannel(message.channelID),
   }
 
 
