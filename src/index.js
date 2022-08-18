@@ -24,7 +24,7 @@ import Channel from './models/channel.js';
 
 import Members from './dataSources/members.js';
 import Messages from './dataSources/messages.js';
-import Servers from './dataSources/Servers.js';
+import Servers from './dataSources/servers.js';
 import Users from './dataSources/users.js';
 import Channels from './dataSources/channels.js';
 
