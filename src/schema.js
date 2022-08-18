@@ -15,6 +15,7 @@ const typeDefs = gql`
     name: String!
     serverID: String!
     messages: [Message!]!
+    server: Server!
   }
 
   type User {
@@ -31,11 +32,13 @@ const typeDefs = gql`
     userID: String!
     channelID: String!
     deleted: Boolean!
+    user: User
   }
 
   type Server {
     id: ID!
     name: String!
+    server_image: String!
     deleted: Boolean!
     members: [Member!]!
     channels: [Channel!]!
@@ -61,20 +64,20 @@ const typeDefs = gql`
     deleteMessage(id: ID!): Message!
     createMessage(content: String!, userID: String!, channelID: String!, deleted: Boolean!): Message!
 
-    createServer(name: String!, deleted: Boolean!, ownerID: String!): Server!
-    editServer(id: ID!, name: String!, deleted: Boolean!, ownerID: String!): Server!
+    createServer(name: String!,server_image: String, deleted: Boolean!, ownerID: String!): Server!
+    editServer(id: ID!, name: String!,server_image: String ,deleted: Boolean!, ownerID: String!): Server!
     deleteServer(id: ID!): Server!
 
     createUser(name: String!, deleted: Boolean!,email: String, profile_image: String): User!
-    editUser(id: ID!,name: String!,email: String, profile_image: String): User!
+    editUser(id: ID!,name: String!,email: String!, profile_image: String!): User!
     deleteUser(id: ID!): User!
     
     createMember(userID: String!, serverID: String!, deleted: Boolean!): Member!
     editMember(id: ID!, userID: String!, serverID: String!, deleted: Boolean!): Member!
     deleteMember(id: ID!): Member!
     
-    createChannel(name: String,serverID: String,deleted: Boolean): Channel!
-    editChannel(name: String,serverID: String,deleted: Boolean): Channel!
+    createChannel(name: String!,serverID: String! ,deleted: Boolean!): Channel!
+    editChannel(name: String! ,serverID: String!,deleted: Boolean!): Channel!
     deleteChannel(id: ID!): Channel!
   }
 

@@ -4,6 +4,12 @@ const pubsub = new PubSub();
 
 const resolvers = {
 
+  Subscription: {
+    messageCreated: {
+      subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
+    },
+  },
+
   Query: {
     getMembers: async (_, { serverID }, { dataSources }) => {
       return dataSources.members.getMembers(serverID);
@@ -48,7 +54,6 @@ const resolvers = {
     },
     createMessage: async (_, args, { dataSources }) => {
       const newMessage = await dataSources.messages.createMessage(args)
-      console.log(newMessage)
       pubsub.publish('MESSAGE_CREATED', { messageCreated: newMessage }); 
       return newMessage
     },
@@ -87,18 +92,13 @@ const resolvers = {
 
   },
 
-  Subscription: {
-    messageCreated: {
-      subscribe: () => pubsub.asyncIterator(['MESSAGE_CREATED']),
-    },
-  },
-
   Server: {
     members: (server, _, { dataSources: {members} }) =>  members.getMembers(server._id),
     channels: (server, _, { dataSources: {channels} }) =>  channels.getChannels(server._id)
   },
   Channel: {
-    messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id)
+    messages: (channel, _, { dataSources: {messages} }) =>  messages.getMessages(channel._id),
+    server: (channel, _, { dataSources: {servers} }) =>  servers.getServer(channel.serverID)
   },
   Member: {
     user: (member, _, { dataSources: {users} }) =>  users.getUser(member.userID),
@@ -106,7 +106,12 @@ const resolvers = {
   },
   User:{
     memberships: (user, _, { dataSources: {members} }) =>  members.getUserMembers(user._id),
+  },
+  Message:{
+    user: (message, _, { dataSources: {users} }) =>  users.getUser(message.userID),
   }
+
+
 }
 
 export default resolvers;
